@@ -5,13 +5,18 @@ import socket
 
 class Server:
     """docstring for Server"""
-    def __init__(self: object, host: str, port: int):
+    def __init__(self, host: str, port: int):
         self.recv_socket = create_socket(host, port)
         self.recv_socket.listen(20)
-        self.send_socket = create_socket(host, port)
+        self.send_socket = create_socket(host, port + 1)
 
-    def accept_connections(self: object):
-        pass
+    def accept_connections(self):
+        while True:
+            try:
+                client_connection, client_address = self.recv_socket.accept()
+                print(client_connection.recv(4096))
+            except ConnectionAbortedError:
+                break
 
 
 def create_socket(host: str, port: int) -> socket:
