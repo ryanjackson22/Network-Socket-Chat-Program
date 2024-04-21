@@ -5,12 +5,12 @@ import socket
 
 class Server:
     """docstring for Server"""
-    def __init__(self, host, port):
+    def __init__(self: object, host: str, port: int):
         self.recv_socket = create_socket(host, port)
+        self.recv_socket.listen(20)
         self.send_socket = create_socket(host, port)
-        pass
 
-    def accept_connections(self):
+    def accept_connections(self: object):
         pass
 
 
@@ -21,5 +21,5 @@ def create_socket(host: str, port: int) -> socket:
 
 
 if __name__ == '__main__':
-    server = Server()
+    server = Server("localhost", 10000)
     server.accept_connections()
