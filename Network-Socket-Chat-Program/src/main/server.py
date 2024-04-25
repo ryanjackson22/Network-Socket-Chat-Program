@@ -15,7 +15,8 @@ class Server:
         while True:
             try:
                 client_connection, client_address = self.recv_socket.accept()
-                print(client_connection.recv(4096))
+                print(client_connection)
+                # print(client_connection.recv(4096))
             except ConnectionAbortedError:
                 break
 

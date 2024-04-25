@@ -11,6 +11,7 @@ class MyTestCase(unittest.TestCase):
 
         test_socket.sendall('Hello World!'.encode('UTF-8'))
         self.assertTrue(True)  # add assertion here
+        test_socket.close()
 
 
 if __name__ == '__main__':
