@@ -14,6 +14,7 @@ class Server:
 
     def accept_connections(self):
         while True:
+            print(1)
             try:
                 client_connection, client_address = self.recv_socket.accept()
                 client_data = client_connection.recv(4096).decode('UTF-8')
@@ -25,15 +26,15 @@ class Server:
                 message_type = client_data[client_data.find('-') + 1:]
 
                 if message_type == 'h':  # server commands
-                    pass
+                    continue
                 if message_type == 'p':  # private message
-                    pass
+                    continue
                 if message_type == 'a':  # message to all connections
-                    pass
+                    continue
                 if message_type == 's':  # start connection
                     self.new_connection(client_connection, username)
                 if message_type == 'e':  # end connection
-                    pass
+                    continue
 
             except ConnectionAbortedError:
                 break
@@ -42,6 +43,7 @@ class Server:
         self.add_connection(username, client_connection)
         self.print_active_connections()
         client_connection.sendall(b'Connection Confirmed')
+
 
     def add_connection(self, username: str, client_socket: socket.socket) -> None:
         self.active_connections.append(Connection(username, client_socket))
@@ -72,6 +74,7 @@ def is_data_valid(client_connection, client_data) -> bool:
         client_connection.sendall(b'Invalid Username')
         return False
     return True
+
 
 if __name__ == '__main__':
     server = Server("localhost", 10000)
