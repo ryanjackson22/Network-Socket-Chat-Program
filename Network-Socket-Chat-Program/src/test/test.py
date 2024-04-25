@@ -6,11 +6,13 @@ from src.main.server import Server
 
 class MyTestCase(unittest.TestCase):
     def test_accept_connections(self):
+        expected = b'Connection Confirmed'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
 
         test_socket.sendall('Hello World!'.encode('UTF-8'))
-        self.assertTrue(True)  # add assertion here
+        actual = test_socket.recv(4096)
+        self.assertEquals(expected, actual)
         test_socket.close()
 
 

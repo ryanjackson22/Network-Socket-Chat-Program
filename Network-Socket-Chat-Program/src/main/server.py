@@ -15,8 +15,10 @@ class Server:
         while True:
             try:
                 client_connection, client_address = self.recv_socket.accept()
-                print(client_connection)
-                # print(client_connection.recv(4096))
+                username = client_connection.recv(4096)
+                self.add_connection()
+                client_connection.sendall(b'Connection Confirmed')
+
             except ConnectionAbortedError:
                 break
 
@@ -25,6 +27,7 @@ class Server:
 
     def remove_connection(self):
         pass
+
 
 def create_socket(host: str, port: int) -> socket:
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
