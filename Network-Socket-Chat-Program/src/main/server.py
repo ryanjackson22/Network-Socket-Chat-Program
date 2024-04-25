@@ -18,12 +18,7 @@ class Server:
                 client_connection, client_address = self.recv_socket.accept()
                 client_data = client_connection.recv(4096).decode('UTF-8')
 
-                if client_data.find('-') == -1:
-                    client_connection.sendall(b'Invalid Type')
-                    continue
-
-                if not client_data[0].isalnum():
-                    client_connection.sendall(b'Invalid Username')
+                if not is_data_valid(client_connection, client_data):
                     continue
 
                 username = client_data[:client_data.find('-') - 1]
@@ -33,6 +28,8 @@ class Server:
 
             except ConnectionAbortedError:
                 break
+
+
 
     def new_connection(self, client_connection, username):
         self.add_connection(username, client_connection)
@@ -53,11 +50,21 @@ class Server:
             print(f'Connected to: {connection.write_socket}')
             print()
 
+
 def create_socket(host: str, port: int) -> socket:
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     new_socket.bind((host, port))
     return new_socket
 
+
+def is_data_valid(client_connection, client_data) -> bool:
+    if client_data.find('-') == -1:
+        client_connection.sendall(b'Invalid Type')
+        return False
+    if not client_data[0].isalnum():
+        client_connection.sendall(b'Invalid Username')
+        return False
+    return True
 
 if __name__ == '__main__':
     server = Server("localhost", 10000)
