@@ -14,7 +14,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(expected, actual)
         test_socket.close()
 
-    def test_multiple_connections(self):
+    def test_connect_to_server(self):
         expected = b'Connection Confirmed'
 
         thread1 = threading.Thread(target=connect_to_server(username='Thread 1'), args=())
@@ -28,16 +28,13 @@ class MyTestCase(unittest.TestCase):
 
         self.assertTrue(True)
 
-    def test_connect_to_server(self):
-        connect_to_server(username='localhost')
-
 
 def connect_to_server(username='Hello World!'):
     test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     test_socket.connect(("localhost", 10000))
 
     test_socket.sendall(username.encode('UTF-8'))
-    # actual = test_socket.recv(4096)
+    actual = test_socket.recv(4096)
     test_socket.close()
 
 
