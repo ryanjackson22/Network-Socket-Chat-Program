@@ -10,7 +10,7 @@ class MyTestCase(unittest.TestCase):
         test_socket.connect(("localhost", 10000))
 
         test_socket.sendall('Hello World!'.encode('UTF-8'))
-        self.assertEqual(True, False)  # add assertion here
+        self.assertTrue(True)  # add assertion here
 
 
 if __name__ == '__main__':

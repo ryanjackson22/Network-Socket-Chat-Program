@@ -6,6 +6,7 @@ import socket
 class Server:
     """docstring for Server"""
     def __init__(self, host: str, port: int):
+        self.active_connections = []
         self.recv_socket = create_socket(host, port)
         self.recv_socket.listen(20)
         self.send_socket = create_socket(host, port + 1)
