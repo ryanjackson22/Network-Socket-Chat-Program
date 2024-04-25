@@ -28,6 +28,15 @@ class MyTestCase(unittest.TestCase):
 
         self.assertTrue(True)
 
+    def test_no_message_type(self, username='Bad Listener'):
+        expected = b'Invalid Type'
+        test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        test_socket.connect(("localhost", 10000))
+
+        test_socket.sendall(username.encode('UTF-8'))
+        actual = test_socket.recv(4096)
+        self.assertEqual(expected, actual)
+        test_socket.close()
 
 def connect_to_server(username='Hello World!'):
     test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

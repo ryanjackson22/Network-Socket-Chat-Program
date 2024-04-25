@@ -19,6 +19,11 @@ class Server:
                 client_data = client_connection.recv(4096)
                 decoded_data = client_data.decode('UTF-8')
 
+                # print(decoded_data.find('-'))
+                if decoded_data.find('-') == -1:
+                    client_connection.sendall(b'Invalid Type')
+                    continue
+
                 username = decoded_data[:decoded_data.find('-') - 1]
                 message_type = decoded_data[decoded_data.find('-') + 1:]
 
