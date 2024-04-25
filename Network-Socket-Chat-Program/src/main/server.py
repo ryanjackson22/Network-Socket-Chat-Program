@@ -17,9 +17,14 @@ class Server:
             try:
                 client_connection, client_address = self.recv_socket.accept()
                 client_data = client_connection.recv(4096)
-                print(client_data)
+                decoded_data = client_data.decode('UTF-8')
 
-                self.new_connection(client_connection, client_data)
+                username = decoded_data[:decoded_data.find('-') - 1]
+                message_type = decoded_data[decoded_data.find('-') + 1:]
+
+                print(message_type)
+
+                self.new_connection(client_connection, username)
 
             except ConnectionAbortedError:
                 break

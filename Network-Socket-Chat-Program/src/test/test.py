@@ -4,7 +4,7 @@ import threading
 
 
 class MyTestCase(unittest.TestCase):
-    def test_accept_connections(self, username='Hello World!'):
+    def test_accept_connections(self, username='Hello World! -a'):
         expected = b'Connection Confirmed'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
@@ -17,8 +17,8 @@ class MyTestCase(unittest.TestCase):
     def test_connect_to_server(self):
         expected = b'Connection Confirmed'
 
-        thread1 = threading.Thread(target=connect_to_server(username='Thread 1'), args=())
-        thread2 = threading.Thread(target=connect_to_server(username='Thread 2'), args=())
+        thread1 = threading.Thread(target=connect_to_server(username='Thread 1 -b'), args=())
+        thread2 = threading.Thread(target=connect_to_server(username='Thread 2 -c'), args=())
 
         thread1.start()
         thread2.start()
