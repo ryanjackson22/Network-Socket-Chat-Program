@@ -20,6 +20,11 @@ class Server:
             except ConnectionAbortedError:
                 break
 
+    def add_connection(self):
+        pass
+
+    def remove_connection(self):
+        pass
 
 def create_socket(host: str, port: int) -> socket:
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
