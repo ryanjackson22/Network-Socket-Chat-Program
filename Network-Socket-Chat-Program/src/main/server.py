@@ -24,12 +24,19 @@ class Server:
                 username = client_data[:client_data.find('-') - 1]
                 message_type = client_data[client_data.find('-') + 1:]
 
-                self.new_connection(client_connection, username)
+                if message_type == 'h':  # server commands
+                    pass
+                if message_type == 'p':  # private message
+                    pass
+                if message_type == 'a':  # message to all connections
+                    pass
+                if message_type == 's':  # start connection
+                    self.new_connection(client_connection, username)
+                if message_type == 'e':  # end connection
+                    pass
 
             except ConnectionAbortedError:
                 break
-
-
 
     def new_connection(self, client_connection, username):
         self.add_connection(username, client_connection)

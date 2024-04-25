@@ -4,7 +4,7 @@ import threading
 
 
 class MyTestCase(unittest.TestCase):
-    def test_accept_connections(self, username='Hello World! -a'):
+    def test_accept_connections(self, username='Hello World! -s'):
         expected = b'Connection Confirmed'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
@@ -15,8 +15,8 @@ class MyTestCase(unittest.TestCase):
         test_socket.close()
 
     def test_connect_to_server(self):
-        thread1 = threading.Thread(target=connect_to_server(username='Thread 1 -b'), args=())
-        thread2 = threading.Thread(target=connect_to_server(username='Thread 2 -c'), args=())
+        thread1 = threading.Thread(target=connect_to_server(username='Thread 1 -s'), args=())
+        thread2 = threading.Thread(target=connect_to_server(username='Thread 2 -s'), args=())
 
         thread1.start()
         thread2.start()
@@ -36,7 +36,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
         test_socket.close()
 
-    def test_space_username(self, username=' -a'):
+    def test_space_username(self, username=' -s'):
         expected = b'Invalid Username'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
@@ -46,7 +46,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(expected, actual)
         test_socket.close()
 
-    def test_no_username(self, username='-a'):
+    def test_no_username(self, username='-s'):
         expected = b'Invalid Username'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
