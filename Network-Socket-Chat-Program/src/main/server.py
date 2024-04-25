@@ -16,19 +16,18 @@ class Server:
         while True:
             try:
                 client_connection, client_address = self.recv_socket.accept()
-                client_data = client_connection.recv(4096)
-                decoded_data = client_data.decode('UTF-8')
+                client_data = client_connection.recv(4096).decode('UTF-8')
 
-                if decoded_data.find('-') == -1:
+                if client_data.find('-') == -1:
                     client_connection.sendall(b'Invalid Type')
                     continue
 
-                if not decoded_data[0].isalnum():
+                if not client_data[0].isalnum():
                     client_connection.sendall(b'Invalid Username')
                     continue
 
-                username = decoded_data[:decoded_data.find('-') - 1]
-                message_type = decoded_data[decoded_data.find('-') + 1:]
+                username = client_data[:client_data.find('-') - 1]
+                message_type = client_data[client_data.find('-') + 1:]
 
                 self.new_connection(client_connection, username)
 
