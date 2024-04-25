@@ -1,6 +1,7 @@
 """Docstring goes here. """
 
 import socket
+from src.main.connection import Connection
 
 
 class Server:
@@ -16,14 +17,15 @@ class Server:
             try:
                 client_connection, client_address = self.recv_socket.accept()
                 username = client_connection.recv(4096)
-                self.add_connection()
-                client_connection.sendall(b'Connection Confirmed')
+                self.add_connection(username, client_connection)
+                print(f'Connected to {username}')
+                # client_connection.sendall(b'Connection Confirmed')
 
             except ConnectionAbortedError:
                 break
 
-    def add_connection(self):
-        pass
+    def add_connection(self, username: str, client_socket: socket.socket) -> None:
+        self.active_connections.append(Connection(username, client_socket))
 
     def remove_connection(self):
         pass
