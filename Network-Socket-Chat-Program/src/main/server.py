@@ -16,13 +16,18 @@ class Server:
         while True:
             try:
                 client_connection, client_address = self.recv_socket.accept()
-                username = client_connection.recv(4096)
-                self.add_connection(username, client_connection)
-                print(f'Connected to {username}')
-                client_connection.sendall(b'Connection Confirmed')
+                client_data = client_connection.recv(4096)
+                print(client_data)
+
+                self.new_connection(client_connection, client_data)
 
             except ConnectionAbortedError:
                 break
+
+    def new_connection(self, client_connection, username):
+        self.add_connection(username, client_connection)
+        self.print_active_connections()
+        client_connection.sendall(b'Connection Confirmed')
 
     def add_connection(self, username: str, client_socket: socket.socket) -> None:
         self.active_connections.append(Connection(username, client_socket))
@@ -30,6 +35,13 @@ class Server:
     def remove_connection(self):
         pass
 
+    def print_active_connections(self):
+        print('Active Connections:')
+        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+        for connection in self.active_connections:
+            print(f'Username: {connection.username}')
+            print(f'Connected to: {connection.write_socket}')
+            print()
 
 def create_socket(host: str, port: int) -> socket:
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

@@ -11,7 +11,7 @@ class MyTestCase(unittest.TestCase):
 
         test_socket.sendall(username.encode('UTF-8'))
         actual = test_socket.recv(4096)
-        self.assertEquals(expected, actual)
+        self.assertEqual(expected, actual)
         test_socket.close()
 
     def test_connect_to_server(self):
