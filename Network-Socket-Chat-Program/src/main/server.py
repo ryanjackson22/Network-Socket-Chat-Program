@@ -19,6 +19,7 @@ class Server:
                 username = client_connection.recv(4096)
                 self.add_connection(username, client_connection)
                 print(f'Connected to {username}')
+                print()
                 # client_connection.sendall(b'Connection Confirmed')
 
             except ConnectionAbortedError:

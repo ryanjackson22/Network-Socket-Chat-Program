@@ -16,10 +16,9 @@ class MyTestCase(unittest.TestCase):
 
     def test_multiple_connections(self):
         expected = b'Connection Confirmed'
-        empty_tuple = tuple()
 
-        thread1 = threading.Thread(target=self.connect_to_server(), args=())
-        thread2 = threading.Thread(target=self.connect_to_server(), args=())
+        thread1 = threading.Thread(target=connect_to_server(username='Thread 1'), args=())
+        thread2 = threading.Thread(target=connect_to_server(username='Thread 2'), args=())
 
         thread1.start()
         thread2.start()
@@ -29,13 +28,17 @@ class MyTestCase(unittest.TestCase):
 
         self.assertTrue(True)
 
-    def connect_to_server(self, username='Hello World!'):
-        test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        test_socket.connect(("localhost", 10000))
+    def test_connect_to_server(self):
+        connect_to_server(username='localhost')
 
-        test_socket.sendall(username.encode('UTF-8'))
-        # actual = test_socket.recv(4096)
-        test_socket.close()
+
+def connect_to_server(username='Hello World!'):
+    test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    test_socket.connect(("localhost", 10000))
+
+    test_socket.sendall(username.encode('UTF-8'))
+    # actual = test_socket.recv(4096)
+    test_socket.close()
 
 
 if __name__ == '__main__':
