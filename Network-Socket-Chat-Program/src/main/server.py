@@ -22,18 +22,18 @@ class Server:
                 if not is_data_valid(client_connection, client_data):
                     continue
 
-                username = client_data[:client_data.find('-') - 1]
-                message_type = client_data[client_data.find('-') + 1:]
+                client_username = client_data[:client_data.find('-') - 1]
+                client_message_type = client_data[client_data.find('-') + 1:]
 
-                if message_type == 'h':  # server commands
+                if client_message_type == 'h':  # server commands
                     continue
-                if message_type == 'p':  # private message
+                if client_message_type == 'p':  # private message
                     continue
-                if message_type == 'a':  # message to all connections
+                if client_message_type == 'a':  # message to all connections
                     continue
-                if message_type == 's':  # start connection
-                    self.new_connection(client_connection, username)
-                if message_type == 'e':  # end connection
+                if client_message_type == 's':  # start connection
+                    self.new_connection(client_connection, client_username)
+                if client_message_type == 'e':  # end connection
                     continue
 
             except ConnectionAbortedError:
