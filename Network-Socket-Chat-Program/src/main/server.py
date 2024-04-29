@@ -45,8 +45,10 @@ class Server:
         client_connection.sendall(b'Connection Confirmed')
         while True:
             data = client_connection.recv(4096).decode('UTF-8')
+            print(data)
             if not data:
                 break
+            client_connection.sendall(data.encode('UTF-8'))
 
     def add_connection(self, username: str, client_socket: socket.socket) -> None:
         self.active_connections.append(Connection(username, client_socket))
