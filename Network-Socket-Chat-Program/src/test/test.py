@@ -27,7 +27,7 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(True)
 
     def test_no_message_type(self, username='Bad Listener'):
-        expected = b'Invalid Type'
+        expected = b'Invalid Command'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
 
@@ -37,7 +37,7 @@ class MyTestCase(unittest.TestCase):
         test_socket.close()
 
     def test_space_username(self, username=' -s'):
-        expected = b'Invalid Username'
+        expected = b'Invalid Command'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
 
@@ -47,7 +47,7 @@ class MyTestCase(unittest.TestCase):
         test_socket.close()
 
     def test_no_username(self, username='-s'):
-        expected = b'Invalid Username'
+        expected = b'Invalid Command'
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         test_socket.connect(("localhost", 10000))
 

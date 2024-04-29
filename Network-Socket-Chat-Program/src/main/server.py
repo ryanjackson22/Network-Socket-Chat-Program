@@ -19,11 +19,13 @@ class Server:
                 client_connection, client_address = self.recv_socket.accept()
                 client_data = client_connection.recv(4096).decode('UTF-8')
 
-                if not is_data_valid(client_connection, client_data):
+                if not is_data_valid(client_data):
+                    client_connection.sendall(b'Invalid Command')
                     continue
 
                 client_username = client_data[:client_data.find('-') - 1]
                 client_message_type = client_data[client_data.find('-') + 1:]
+                client_message_contents = client_data[:client_data.find('-') + 1]
 
                 if client_message_type == 'h':  # server commands
                     continue
@@ -71,13 +73,11 @@ def create_socket(host: str, port: int) -> socket:
     return new_socket
 
 
-def is_data_valid(client_connection: socket, client_data: str) -> bool:
+def is_data_valid(client_data: str) -> bool:
     if is_message_type_not_found(client_data):
-        client_connection.sendall(b'Invalid Type')
         return False
 
     if not client_data[0].isalnum():
-        client_connection.sendall(b'Invalid Username')
         return False
 
     return True
