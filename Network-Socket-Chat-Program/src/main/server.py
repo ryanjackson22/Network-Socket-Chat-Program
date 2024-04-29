@@ -14,7 +14,6 @@ class Server:
 
     def accept_connections(self):
         while True:
-            print(1)
             try:
                 client_connection, client_address = self.recv_socket.accept()
                 client_data = client_connection.recv(4096).decode('UTF-8')
@@ -23,9 +22,7 @@ class Server:
                     client_connection.sendall(b'Invalid Command')
                     continue
 
-                client_username = client_data[:client_data.find('-') - 1]
-                client_message_type = client_data[client_data.find('-') + 1:]
-                client_message_contents = client_data[:client_data.find('-') + 1]
+                client_username, client_message_type, client_message_contents = self.separate_client_data(client_data)
 
                 if client_message_type == 'h':  # server commands
                     continue
@@ -40,6 +37,12 @@ class Server:
 
             except ConnectionAbortedError:
                 break
+
+    def separate_client_data(self, client_data):
+        client_username = client_data[:client_data.find('-') - 1]
+        client_message_type = client_data[client_data.find('-') + 1:]
+        client_message_contents = client_data[:client_data.find('-') + 1]
+        return client_username, client_message_type, client_message_contents
 
     def new_connection(self, client_connection, username):
         self.add_connection(username, client_connection)
