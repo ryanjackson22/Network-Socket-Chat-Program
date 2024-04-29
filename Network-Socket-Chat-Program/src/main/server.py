@@ -72,13 +72,19 @@ def create_socket(host: str, port: int) -> socket:
 
 
 def is_data_valid(client_connection, client_data) -> bool:
-    if client_data.find('-') == -1:
+    if is_message_type_not_found(client_data):
         client_connection.sendall(b'Invalid Type')
         return False
+
     if not client_data[0].isalnum():
         client_connection.sendall(b'Invalid Username')
         return False
+
     return True
+
+
+def is_message_type_not_found(client_data) -> bool:
+    return client_data.find('-') == -1
 
 
 if __name__ == '__main__':
