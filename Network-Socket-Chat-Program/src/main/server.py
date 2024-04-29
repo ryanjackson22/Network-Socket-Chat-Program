@@ -71,7 +71,7 @@ def create_socket(host: str, port: int) -> socket:
     return new_socket
 
 
-def is_data_valid(client_connection, client_data) -> bool:
+def is_data_valid(client_connection: socket, client_data: str) -> bool:
     if is_message_type_not_found(client_data):
         client_connection.sendall(b'Invalid Type')
         return False
