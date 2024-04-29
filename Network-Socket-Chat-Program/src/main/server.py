@@ -22,7 +22,7 @@ class Server:
                     client_connection.sendall(b'Invalid Command')
                     continue
 
-                client_username, client_message_type, client_message_contents = self.separate_client_data(client_data)
+                client_username, client_message_type, client_message_contents = separate_client_data(client_data)
 
                 if client_message_type == 'h':  # server commands
                     continue
@@ -37,12 +37,6 @@ class Server:
 
             except ConnectionAbortedError:
                 break
-
-    def separate_client_data(self, client_data):
-        client_username = client_data[:client_data.find('-') - 1]
-        client_message_type = client_data[client_data.find('-') + 1:]
-        client_message_contents = client_data[:client_data.find('-') + 1]
-        return client_username, client_message_type, client_message_contents
 
     def new_connection(self, client_connection, username):
         self.add_connection(username, client_connection)
@@ -88,6 +82,13 @@ def is_data_valid(client_data: str) -> bool:
 
 def is_message_type_not_found(client_data) -> bool:
     return client_data.find('-') == -1
+
+
+def separate_client_data(client_data):
+    client_username = client_data[:client_data.find('-') - 1]
+    client_message_type = client_data[client_data.find('-') + 1:]
+    client_message_contents = client_data[:client_data.find('-') + 1]
+    return client_username, client_message_type, client_message_contents
 
 
 if __name__ == '__main__':
