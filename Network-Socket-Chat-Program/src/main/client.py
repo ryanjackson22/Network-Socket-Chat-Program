@@ -19,14 +19,15 @@ class Client:
         while is_username_invalid(self.username):
             self.username = input("Enter a Server Username: ")
 
-        #  apply restrictions as needed
-
         self.sending_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # handles sending messages
         self.receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # handles receiving messages
 
         # todo These sockets should be passed to their own threads to handle communication between the client and server
+
         # todo sending_thread:
         #  This should listen for user input and decide how to send that input to the server
+        listen_thread = threading.Thread(target=self.listen_user_input(self.sending_socket), args=())
+        listen_thread.start()
 
         # todo Receiving Thread: This thread should do two things:
         #  1. It should start by sending a START message to the server
@@ -50,6 +51,9 @@ class Client:
         # server_connection, server_address = self.recv_socket.accept()
         # recv_thread = threading.Thread(target=self.recv_message(server_connection), args=())
         # recv_thread.start()
+
+    def listen_user_input(self, sending_socket):
+        pass
 
     def recv_message(self, server_connection):
         while True:
