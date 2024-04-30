@@ -13,6 +13,9 @@ class Client:
         # todo The client should next create two sockets,
         #  one to handle sending messages
         #  another to handle receiving messages
+        self.sending_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # handles sending messages
+        self.receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # handles receiving messages
+
 
         # todo These sockets should be passed to their own threads to handle communication between the client and server
         # todo sending_thread:
