@@ -2,7 +2,7 @@
 
 import socket
 from src.main.connection import Connection
-
+import threading
 
 class Server:
     """docstring for Server"""
@@ -16,7 +16,9 @@ class Server:
         while True:
             try:
                 client_connection, client_address = self.recv_socket.accept()
-                self.recv_message(client_connection)
+                recv_thread = threading.Thread(target=self.recv_message(client_connection), args=())
+                recv_thread.start()
+                # self.recv_message(client_connection)
 
             except ConnectionAbortedError:
                 break
