@@ -16,6 +16,7 @@ class Server:
 
         # These sockets will be passed to their own individual threads, which should operate as follows:
         reading_thread = threading.Thread(target=self.accept_connections(self.reading_socket), args=())
+        reading_thread.start()
 
         writing_thread = threading.Thread(target=None, args=())
         # Todo sit in a loop waiting for START messages from client receiving threads.
