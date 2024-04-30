@@ -18,11 +18,8 @@ class Server:
         reading_thread = threading.Thread(target=self.accept_connections(self.reading_socket), args=())
         reading_thread.start()
 
-        writing_thread = threading.Thread(target=None, args=())
-        # Todo sit in a loop waiting for START messages from client receiving threads.
-
-        # Todo When it receives such a message,
-        #  it should add this socket to the above global variable
+        writing_thread = threading.Thread(target=self.wait_for_start_message(), args=())
+        writing_thread.start()
 
     def accept_connections(self, reading_socket):
         # TODO This should sit in a loop accepting connections from client sending threads.
@@ -39,6 +36,13 @@ class Server:
         # TODO Each new thread should accept messages from the accept socket it has been given,
         #  determine what sort of messages they are (BROADCAST? PRIVATE? EXIT?)
         #  choose the appropriate action.
+
+    def wait_for_start_message(self):
+        pass
+        # Todo sit in a loop waiting for START messages from client receiving threads.
+
+        # Todo When it receives such a message,
+        #  it should add this socket to the above global variable
 
 
 def create_socket(host: str, port: int) -> socket:
