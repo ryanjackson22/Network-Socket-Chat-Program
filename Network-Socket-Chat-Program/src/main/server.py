@@ -4,70 +4,32 @@ import socket
 from src.main.connection import Connection
 import threading
 
+active_connections = []
+
+
 class Server:
     """docstring for Server"""
     def __init__(self, host: str, port: int):
-        self.active_connections = []
-        self.recv_socket = create_socket(host, port)
-        self.recv_socket.listen(20)
-        self.send_socket = create_socket(host, port + 1)
+        # One for client sending threads to communicate with (the "reading" socket)
+        self.reading_socket = create_socket(host, port)
+        # one for client receiving threads to connect to (the "writing" socket)
+        self.writing_socket = create_socket(host, port + 1)
 
-    def accept_connections(self):
-        while True:
-            try:
-                client_connection, client_address = self.recv_socket.accept()
-                recv_thread = threading.Thread(target=self.recv_message(client_connection), args=())
-                recv_thread.start()
-                # self.recv_message(client_connection)
+        # These sockets will be passed to their own individual threads, which should operate as follows:
+        reading_thread = threading.Thread(target=None, args=())
+        # TODO This should sit in a loop accepting connections from client sending threads.
 
-            except ConnectionAbortedError:
-                break
+        # TODO When a client connection is accepted,
+        #  this thread should create a new thread that will handle communication with that particular client
 
-    def recv_message(self, client_connection: socket):
-        while True:
-            client_data = client_connection.recv(4096).decode('UTF-8')
+        # TODO Each new thread should accept messages from the accept socket it has been given,
+        #  determine what sort of messages they are (BROADCAST? PRIVATE? EXIT?)
+        #  choose the appropriate action.
+        writing_thread = threading.Thread(target=None, args=())
+        # Todo sit in a loop waiting for START messages from client receiving threads.
 
-            if not is_data_valid(client_data):
-                client_connection.sendall(b'Invalid Command')
-                return
-
-            client_username, client_message_type, client_message_contents = separate_client_data(client_data)
-
-            if client_message_type == 'h':  # server commands
-                pass
-            if client_message_type == 'p':  # private message
-                pass
-            if client_message_type == 'a':  # message to all connections
-                pass
-            if client_message_type == 's':  # start connection
-                self.new_connection(client_connection, client_username)
-            if client_message_type == 'e':  # end connection
-                pass
-
-    def new_connection(self, client_connection, username):
-        self.add_connection(username, client_connection)
-        self.print_active_connections()
-        client_connection.sendall(b'Connection Confirmed')
-        while True:
-            data = client_connection.recv(4096).decode('UTF-8')
-            print(data)
-            if not data:
-                break
-            client_connection.sendall(data.encode('UTF-8'))
-
-    def add_connection(self, username: str, client_socket: socket.socket) -> None:
-        self.active_connections.append(Connection(username, client_socket))
-
-    def remove_connection(self):
-        pass
-
-    def print_active_connections(self):
-        print('Active Connections:')
-        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-        for connection in self.active_connections:
-            print(f'Username: {connection.username}')
-            print(f'Connected to: {connection.write_socket}')
-            print()
+        # Todo When it receives such a message,
+        #  it should add this socket to the above global variable
 
 
 def create_socket(host: str, port: int) -> socket:
@@ -76,27 +38,5 @@ def create_socket(host: str, port: int) -> socket:
     return new_socket
 
 
-def is_data_valid(client_data: str) -> bool:
-    if is_message_type_not_found(client_data):
-        return False
-
-    if not client_data[0].isalnum():
-        return False
-
-    return True
-
-
-def is_message_type_not_found(client_data) -> bool:
-    return client_data.find('-') == -1
-
-
-def separate_client_data(client_data):
-    client_username = client_data[:client_data.find('-') - 1]
-    client_message_type = client_data[client_data.find('-') + 1:]
-    client_message_contents = client_data[:client_data.find('-') + 1]
-    return client_username, client_message_type, client_message_contents
-
-
 if __name__ == '__main__':
     server = Server("localhost", 10000)
-    server.accept_connections()
