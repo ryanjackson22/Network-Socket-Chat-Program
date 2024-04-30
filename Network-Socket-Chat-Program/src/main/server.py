@@ -1,7 +1,6 @@
 """Docstring goes here. """
 
 import socket
-from src.main.connection import Connection
 import threading
 
 active_connections = []
@@ -39,6 +38,7 @@ class Server:
         # TODO Each new thread should accept messages from the accept socket it has been given,
         #  determine what sort of messages they are (BROADCAST? PRIVATE? EXIT?)
         #  choose the appropriate action.
+
 
 def create_socket(host: str, port: int) -> socket:
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
