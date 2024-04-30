@@ -16,7 +16,7 @@ class Server:
         self.writing_socket = create_socket(host, port + 1)
 
         # These sockets will be passed to their own individual threads, which should operate as follows:
-        reading_thread = threading.Thread(target=self.accept_connections(), args=())
+        reading_thread = threading.Thread(target=self.accept_connections(self.reading_socket), args=())
 
         writing_thread = threading.Thread(target=None, args=())
         # Todo sit in a loop waiting for START messages from client receiving threads.
@@ -24,7 +24,7 @@ class Server:
         # Todo When it receives such a message,
         #  it should add this socket to the above global variable
 
-    def accept_connections(self):
+    def accept_connections(self, reading_socket):
         # TODO This should sit in a loop accepting connections from client sending threads.
 
         # TODO When a client connection is accepted,
