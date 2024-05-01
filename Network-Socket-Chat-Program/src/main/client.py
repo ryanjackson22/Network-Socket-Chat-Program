@@ -41,6 +41,9 @@ class Client:
     def send_start_message(self):
         self.sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
 
+    def wait_for_server_message(self):
+        pass
+
     def listen_user_input(self, sending_socket):
         pass
 
