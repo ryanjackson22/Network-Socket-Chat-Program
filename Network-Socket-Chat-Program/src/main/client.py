@@ -39,19 +39,6 @@ class Client:
         #  + the screen name of the sender when printed,
         #  + indication as to whether the message was private or not.
 
-        # # recv socket
-        # self.recv_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # self.recv_socket.listen(20)
-        # # send socket
-        # self.send_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        # self.send_socket.connect(("localhost", 10000))
-        #
-        # send_thread = threading.Thread(target=self.send_message(), args=())
-        # send_thread.start()
-        # server_connection, server_address = self.recv_socket.accept()
-        # recv_thread = threading.Thread(target=self.recv_message(server_connection), args=())
-        # recv_thread.start()
-
     def listen_user_input(self, sending_socket):
         pass
 
