@@ -30,11 +30,12 @@ class Client:
         listen_thread.start()
 
         # todo Receiving Thread: This thread should do two things:
-        receiving_thread = threading.Thread(target=None, args=())
+        receiving_thread = threading.Thread(target=self.receiving_thread_handler(), args=())
         receiving_thread.start()
 
     def receiving_thread_handler(self):
-        pass
+        self.send_start_message()
+        self.wait_for_server_message()
 
     def send_start_message(self):
         self.sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
