@@ -36,6 +36,7 @@ class Server:
             if is_exit(data):
                 pass
             if is_broadcast(data):
+
                 for active_connection in active_connections:
                     active_connection.sendall(f'USERNAME (PUBLIC/PRIVATE): {data}'.encode('utf-8'))
             if is_private(data):
