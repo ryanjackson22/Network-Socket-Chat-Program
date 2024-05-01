@@ -42,7 +42,7 @@ class Server:
                     for active_connection in active_connections:
                         # active_connection.sendall(f'{client_message}'.encode('utf-8'))
                         active_connection.connection_socket.sendall(client_message.encode('utf-8'))
-                        print(f'Sent Message to {active_connection}')
+                        print(f'Sent Message to: {active_connection.username}')
                 if is_private(client_message):
                     pass
             except OSError:
