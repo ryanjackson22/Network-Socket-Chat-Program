@@ -32,7 +32,14 @@ class Server:
         #  this thread should create a new thread that will handle communication with that particular client
 
     def communication_handler(self, client_socket: socket):
-        pass
+        while True:
+            data = client_socket.recv(4096)
+            if is_exit(data):
+                pass
+            if is_broadcast(data):
+                pass
+            if is_private(data):
+                pass
         # TODO Each new thread should accept messages from the accept socket it has been given,
         #  determine what sort of messages they are (BROADCAST? PRIVATE? EXIT?)
         #  choose the appropriate action.
@@ -49,6 +56,18 @@ def create_socket(host: str, port: int) -> socket:
     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     new_socket.bind((host, port))
     return new_socket
+
+
+def is_exit(data):
+    pass
+
+
+def is_broadcast(data):
+    pass
+
+
+def is_private(data):
+    pass
 
 
 if __name__ == '__main__':
