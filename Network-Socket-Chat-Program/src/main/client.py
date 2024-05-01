@@ -16,19 +16,14 @@ class Client:
     def __init__(self) -> None:
         self.username = set_username()
 
-        writing_socket = self.create_tcp_socket(('localhost', 5000))
-        reading_socket = self.create_tcp_socket(('localhost', 10000))
+        writing_socket = create_tcp_socket(('localhost', 5000))
+        reading_socket = create_tcp_socket(('localhost', 10000))
 
         listen_thread = threading.Thread(target=self.listen_user_input, args=(writing_socket,))
         receiving_thread = threading.Thread(target=self.receiving_thread_handler, args=(reading_socket,))
 
         listen_thread.start()
         receiving_thread.start()
-
-    def create_tcp_socket(self, socket_address: tuple) -> socket.socket:
-        new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
-        new_socket.connect(socket_address)
-        return new_socket
 
     def receiving_thread_handler(self, receiving_socket: socket) -> None:
         self.send_start_message(receiving_socket)
@@ -55,6 +50,12 @@ class Client:
             if message_to_server.__contains__('PRIVATE'):
                 sending_socket.sendall(f'PRIVATE USERNAME {message_to_server}'.encode('utf-8'))
             print("Message sent to: ", sending_socket)
+
+
+def create_tcp_socket(socket_address: tuple) -> socket.socket:
+    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
+    new_socket.connect(socket_address)
+    return new_socket
 
 
 def set_username() -> str:
