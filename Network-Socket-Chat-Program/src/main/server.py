@@ -34,7 +34,7 @@ class Server:
                 if not client_message:
                     continue
                 if is_exit(client_message):
-                    pass
+                    client_socket.send(f'EXIT'.encode('utf-8'))
                 if is_broadcast(client_message):
                     print_active_connections()
                     for active_connection in active_connections:
