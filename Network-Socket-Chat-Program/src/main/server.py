@@ -30,29 +30,30 @@ class Server:
     def communication_handler(self, client_socket: socket):
         print(f'Handling Communication for {client_socket}')
         while True:
-            try:
-                client_message = client_socket.recv(4096).decode('utf-8')
-                if not client_message:
-                    continue
-                if is_exit(client_message):
-                    client_socket.sendall(f'EXIT'.encode('utf-8'))
-                    print(1)
-                if is_broadcast(client_message):
-                    print_active_connections()
-                    for active_connection in active_connections:
-                        # active_connection.sendall(f'{client_message}'.encode('utf-8'))
-                        active_connection.connection_socket.sendall(client_message.encode('utf-8'))
-                        print(f'Sent Message to: {active_connection.username}')
-                if is_private(client_message):
-                    pass
-            except OSError:
+            client_message = client_socket.recv(4096).decode('utf-8')
+            sender_username = client_message.split()[0]
+            if not client_message:
                 continue
+            if is_exit(client_message):
+                client_socket.sendall(f'EXIT'.encode('utf-8'))
+                print(1)
+            if is_broadcast(client_message):
+                print_active_connections()
+                for active_connection in active_connections:
+                    # active_connection.sendall(f'{client_message}'.encode('utf-8'))
+                    active_connection.connection_socket.sendall(client_message.encode('utf-8'))
+                    print(f'Sent Message to: {active_connection.username}')
+            if is_private(client_message):
+                receiver_username = client_message.split()[2]
+                for active_connection in active_connections:
+                    if active_connection.username == receiver_username:
+                        active_connection.connection_socket.sendall(client_message.encode('utf-8'))
 
     def wait_for_start_message(self, writing_socket: socket):
         print("Waiting for start message...")
         writing_socket.listen(20)
-        connection_socket, address = writing_socket.accept()
         while True:
+            connection_socket, address = writing_socket.accept()
             client_message = connection_socket.recv(4096).decode('utf-8')
             username = client_message.split()[0]
             if not client_message:
