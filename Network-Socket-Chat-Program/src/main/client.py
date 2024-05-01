@@ -27,11 +27,13 @@ class Client:
         # todo sending_thread:
         #  This should listen for user input and decide how to send that input to the server
         listen_thread = threading.Thread(target=self.listen_user_input(self.sending_socket), args=())
-        listen_thread.start()
+
         print('a')
         # todo These sockets should be passed to their own threads to handle communication between the client and server
         # todo Receiving Thread: This thread should do two things:
         receiving_thread = threading.Thread(target=self.receiving_thread_handler(), args=())
+
+        listen_thread.start()
         receiving_thread.start()
 
 
