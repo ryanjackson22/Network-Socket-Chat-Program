@@ -9,11 +9,8 @@ active_connections = []
 class Server:
     """docstring for Server"""
     def __init__(self):
-        reading_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        reading_socket.bind(('localhost', 5000))
-
-        writing_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        writing_socket.bind(('localhost', 10000))
+        reading_socket = create_tcp_socket(('localhost', 5000))
+        writing_socket = create_tcp_socket(('localhost', 10000))
 
         reading_thread = threading.Thread(target=self.accept_connections, args=(reading_socket,))
         writing_thread = threading.Thread(target=self.wait_for_start_message, args=(writing_socket,))
@@ -82,6 +79,12 @@ def print_active_connections():
     print('~ ' * 10)
     for connection in active_connections:
         print(connection)
+
+
+def create_tcp_socket(socket_address: tuple) -> socket.socket:
+    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
+    new_socket.bind(socket_address)
+    return new_socket
 
 
 if __name__ == '__main__':
