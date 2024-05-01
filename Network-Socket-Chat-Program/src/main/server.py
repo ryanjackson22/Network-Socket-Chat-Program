@@ -40,14 +40,15 @@ class Server:
             if is_broadcast(client_message):
                 print_active_connections()
                 for active_connection in active_connections:
-                    # active_connection.sendall(f'{client_message}'.encode('utf-8'))
                     active_connection.connection_socket.sendall(client_message.encode('utf-8'))
                     print(f'Sent Message to: {active_connection.username}')
             if is_private(client_message):
-                receiver_username = client_message.split()[2]
+                receiver_username = client_message.split()[3]
+                print(receiver_username)
                 for active_connection in active_connections:
                     if active_connection.username == receiver_username:
                         active_connection.connection_socket.sendall(client_message.encode('utf-8'))
+                        print(f'Sent Private Message to: {active_connection.username}')
 
     def wait_for_start_message(self, writing_socket: socket):
         print("Waiting for start message...")
