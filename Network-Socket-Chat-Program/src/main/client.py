@@ -15,9 +15,7 @@ class Client:
     """docstring for Client"""
     def __init__(self, host: str, port: int) -> None:
         # Todo The client should first start by letting the user pick a screen name for their client,
-        self.username = ""
-        while is_username_invalid(self.username):
-            self.username = input("Enter a Server Username: ")
+        self.username = self.set_username()
 
         writing_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
         writing_socket.connect(('localhost', 5000))
@@ -29,6 +27,12 @@ class Client:
 
         listen_thread.start()
         receiving_thread.start()
+
+    def set_username(self) -> str:
+        username = ""
+        while is_username_invalid(username):
+            username = input("Enter a Server Username: ")
+        return username
 
     def receiving_thread_handler(self, receiving_socket: socket) -> None:
         self.send_start_message(receiving_socket)
