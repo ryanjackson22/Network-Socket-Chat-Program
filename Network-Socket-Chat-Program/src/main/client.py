@@ -19,13 +19,13 @@ class Client:
         while is_username_invalid(self.username):
             self.username = input("Enter a Server Username: ")
 
-        sending_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
-        sending_socket.connect((host, port))
-        receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles receiving messages
-        receiving_socket.connect((host, port))
+        writing_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
+        writing_socket.connect(('localhost', 5000))
+        reading_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles receiving messages
+        reading_socket.connect(('localhost', 10000))
 
-        listen_thread = threading.Thread(target=self.listen_user_input, args=(sending_socket,))
-        receiving_thread = threading.Thread(target=self.receiving_thread_handler, args=(receiving_socket,))
+        listen_thread = threading.Thread(target=self.listen_user_input, args=(writing_socket,))
+        receiving_thread = threading.Thread(target=self.receiving_thread_handler, args=(reading_socket,))
 
         listen_thread.start()
         receiving_thread.start()
