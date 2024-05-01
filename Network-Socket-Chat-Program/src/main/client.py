@@ -30,6 +30,8 @@ class Client:
         listen_thread.start()
 
         # todo Receiving Thread: This thread should do two things:
+        receiving_thread = threading.Thread(target=None, args=())
+        receiving_thread.start()
         #  1. It should start by sending a START message to the server
         #  (this should allow your server to collect the screen name
         #  and socket data it needs to send messages to this client).
