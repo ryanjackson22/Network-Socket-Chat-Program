@@ -14,12 +14,10 @@ def is_username_invalid(username: str) -> bool:
 class Client:
     """docstring for Client"""
     def __init__(self, host: str, port: int) -> None:
-        # Todo The client should first start by letting the user pick a screen name for their client,
         self.username = set_username()
 
         writing_socket = self.create_tcp_socket(('localhost', 5000))
-        reading_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles receiving messages
-        reading_socket.connect(('localhost', 10000))
+        reading_socket = self.create_tcp_socket(('localhost', 10000))
 
         listen_thread = threading.Thread(target=self.listen_user_input, args=(writing_socket,))
         receiving_thread = threading.Thread(target=self.receiving_thread_handler, args=(reading_socket,))
