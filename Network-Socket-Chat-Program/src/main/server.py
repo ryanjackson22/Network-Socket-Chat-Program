@@ -53,13 +53,10 @@ class Server:
         writing_socket.listen(20)
         connection_socket, address = writing_socket.accept()
         while True:
-            # try:
             message = connection_socket.recv(4096).decode('utf-8')
             print(message)
             if not message:
                 continue
-            # except OSError:
-            #     continue
             active_connections.append(writing_socket)
 
 
