@@ -36,8 +36,8 @@ class Client:
     def wait_for_server_message(self, receiving_socket: socket) -> None:
         print("Waiting for server message...")
         while True:
-            message = receiving_socket.recv(4096).decode('utf-8')
-            print(f'USERNAME (PUBLIC/PRIVATE): {message}')
+            server_message = receiving_socket.recv(4096).decode('utf-8')
+            print(f'USERNAME (PUBLIC/PRIVATE): {server_message}')
 
     def listen_user_input(self, sending_socket: socket) -> None:
         while True:
@@ -46,7 +46,7 @@ class Client:
                 sending_socket.sendall('EXIT'.encode('utf-8'))
                 break
             if message_to_server.__contains__('ALL'):
-                sending_socket.sendall(f'ALL {message_to_server}'.encode('utf-8'))
+                sending_socket.sendall(f'{self.username} (ALL): {message_to_server}'.encode('utf-8'))
             if message_to_server.__contains__('PRIVATE'):
                 sending_socket.sendall(f'PRIVATE USERNAME {message_to_server}'.encode('utf-8'))
             print("Message sent to: ", sending_socket)
