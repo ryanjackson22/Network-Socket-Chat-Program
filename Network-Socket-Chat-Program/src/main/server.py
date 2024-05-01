@@ -38,7 +38,7 @@ class Server:
                 if is_broadcast(client_message):
                     print_active_connections()
                     for active_connection in active_connections:
-                        active_connection.sendall(f'USERNAME (PUBLIC/PRIVATE): {client_message}'.encode('utf-8'))
+                        active_connection.sendall(f'{client_message}'.encode('utf-8'))
                         print(f'Sent Message to {active_connection}')
                 if is_private(client_message):
                     pass

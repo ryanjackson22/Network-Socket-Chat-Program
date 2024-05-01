@@ -46,7 +46,7 @@ class Client:
                 sending_socket.sendall('EXIT'.encode('utf-8'))
                 break
             if message_to_server.__contains__('ALL'):
-                sending_socket.sendall(f'ALL {message_to_server}'.encode('utf-8'))
+                sending_socket.sendall(f'{self.username} (ALL): {message_to_server}'.encode('utf-8'))
             if message_to_server.__contains__('PRIVATE'):
                 sending_socket.sendall(f'PRIVATE USERNAME {message_to_server}'.encode('utf-8'))
             print("Message sent to: ", sending_socket)
