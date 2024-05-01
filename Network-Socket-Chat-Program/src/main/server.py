@@ -30,17 +30,17 @@ class Server:
         print(f'Handling Communication for {client_socket}')
         while True:
             try:
-                data = client_socket.recv(4096).decode('utf-8')
-                if not data:
+                client_message = client_socket.recv(4096).decode('utf-8')
+                if not client_message:
                     continue
-                if is_exit(data):
+                if is_exit(client_message):
                     pass
-                if is_broadcast(data):
+                if is_broadcast(client_message):
                     print_active_connections()
                     for active_connection in active_connections:
-                        active_connection.sendall(f'USERNAME (PUBLIC/PRIVATE): {data}'.encode('utf-8'))
+                        active_connection.sendall(f'USERNAME (PUBLIC/PRIVATE): {client_message}'.encode('utf-8'))
                         print(f'Sent Message to {active_connection}')
-                if is_private(data):
+                if is_private(client_message):
                     pass
             except OSError:
                 continue
