@@ -57,7 +57,7 @@ class Server:
             print(message)
             if not message:
                 continue
-            active_connections.append(writing_socket)
+            active_connections.append(connection_socket)
 
 
 # def create_socket(host: str, port: int) -> socket:
