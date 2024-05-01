@@ -30,7 +30,7 @@ class Server:
 
     def communication_handler(self, client_socket: socket):
         while True:
-            data = client_socket.recv(4096)
+            data = client_socket.recv(4096).decode('utf-8')
             if not data:
                 continue
             if is_exit(data):
