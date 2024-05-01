@@ -66,15 +66,15 @@ class Server:
 #     return new_socket
 
 
-def is_exit(data:str):
+def is_exit(data: str):
     return data.__contains__('EXIT')
 
 
-def is_broadcast(data):
+def is_broadcast(data: str):
     return data.__contains__('ALL')
 
 
-def is_private(data):
+def is_private(data: str):
     return data.__contains__('PRIVATE')
 
 
