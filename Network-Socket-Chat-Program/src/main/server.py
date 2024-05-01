@@ -48,13 +48,13 @@ class Server:
     def wait_for_start_message(self, writing_socket: socket):
         print("Waiting for start message...")
         while True:
-            try:
-                message = writing_socket.recv(4096).decode('utf-8')
-                print(message)
-                if not message:
-                    continue
-            except OSError:
+            # try:
+            message = writing_socket.recv(4096).decode('utf-8')
+            print(message)
+            if not message:
                 continue
+            # except OSError:
+            #     continue
             active_connections.append(writing_socket)
 
 
