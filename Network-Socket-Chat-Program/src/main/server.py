@@ -10,16 +10,16 @@ class Server:
     """docstring for Server"""
     def __init__(self, host: str, port: int):
         # One for client sending threads to communicate with (the "reading" socket)
-        self.reading_socket = create_socket(host, port)
+        reading_socket = create_socket(host, port)
         # one for client receiving threads to connect to (the "writing" socket)
-        self.writing_socket = create_socket(host, port + 1)
+        writing_socket = create_socket(host, port + 1)
 
         # These sockets will be passed to their own individual threads, which should operate as follows:
-        reading_thread = threading.Thread(target=self.accept_connections(self.reading_socket), args=())
-        writing_thread = threading.Thread(target=self.wait_for_start_message(), args=())
-
-        reading_thread.start()
-        writing_thread.start()
+        print(1)
+        reading_thread = threading.Thread(target=self.accept_connections(reading_socket), args=()).start()
+        print(2)
+        writing_thread = threading.Thread(target=self.wait_for_start_message(writing_socket), args=()).start()
+        print(threading.enumerate())
 
     def accept_connections(self, reading_socket):
         reading_socket.listen(20)
@@ -42,13 +42,14 @@ class Server:
             if is_private(data):
                 pass
 
-    def wait_for_start_message(self):
+    def wait_for_start_message(self, writing_socket):
+        print("Waiting for start message...")
         while True:
-            message = self.reading_socket.recv(4096).decode('ascii')
+            message = writing_socket.recv(4096).decode('ascii')
             print(message)
             if not message:
                 continue
-            active_connections.append(self.reading_socket)
+            active_connections.append(writing_socket)
 
 
 def create_socket(host: str, port: int) -> socket:
