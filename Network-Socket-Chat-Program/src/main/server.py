@@ -77,7 +77,9 @@ def print_active_connections():
     print('ACTIVE CONNECTIONS:')
     print('~ ' * 10)
     for connection in active_connections:
-        print(connection)
+        print(f'username: {connection.username}')
+        print(f'connection: {connection.connection_socket}')
+        print()
 
 
 def create_tcp_socket(socket_address: tuple) -> socket.socket:
