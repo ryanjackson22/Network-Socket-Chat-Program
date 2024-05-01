@@ -25,6 +25,16 @@ class MyTestCase(unittest.TestCase):
         actual = src.main.server.is_broadcast("ALL asdfsaexitasdf")
         self.assertEqual(expected, actual)
 
+    def test_is_private_false(self):
+        expected = False
+        actual = src.main.server.is_private("aasdfasfaprivatesaexitasdf")
+        self.assertEqual(expected, actual)
+
+    def test_is_private_true(self):
+        expected = True
+        actual = src.main.server.is_private("PRIVATE asdfsaexitasdf")
+        self.assertEqual(expected, actual)
+
 
 if __name__ == '__main__':
     unittest.main()
