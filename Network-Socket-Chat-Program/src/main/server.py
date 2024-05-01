@@ -42,9 +42,6 @@ class Server:
                 pass
             if is_private(data):
                 pass
-        # TODO Each new thread should accept messages from the accept socket it has been given,
-        #  determine what sort of messages they are (BROADCAST? PRIVATE? EXIT?)
-        #  choose the appropriate action.
 
     def wait_for_start_message(self):
         while True:
