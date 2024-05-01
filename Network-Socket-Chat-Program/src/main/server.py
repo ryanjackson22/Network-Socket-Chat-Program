@@ -36,7 +36,7 @@ class Server:
             if is_exit(data):
                 pass
             if is_broadcast(data):
-
+                print_active_connections()
                 for active_connection in active_connections:
                     active_connection.sendall(f'USERNAME (PUBLIC/PRIVATE): {data}'.encode('utf-8'))
             if is_private(data):
@@ -67,6 +67,13 @@ def is_broadcast(data):
 
 def is_private(data):
     return data.__contains__('PRIVATE')
+
+
+def print_active_connections():
+    print('ACTIVE CONNECTIONS:')
+    print('~ ' * 10)
+    for connection in active_connections:
+        print(connection)
 
 
 if __name__ == '__main__':
