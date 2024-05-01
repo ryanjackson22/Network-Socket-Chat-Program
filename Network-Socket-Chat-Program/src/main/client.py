@@ -39,7 +39,7 @@ class Client:
         #  + the screen name of the sender when printed,
         #  + indication as to whether the message was private or not.
     def send_start_message(self):
-        self.sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('ascii'))
+        self.sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
 
     def listen_user_input(self, sending_socket):
         pass
