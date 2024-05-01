@@ -56,12 +56,6 @@ class Server:
             active_connections.append(connection_socket)
 
 
-# def create_socket(host: str, port: int) -> socket:
-#     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#     new_socket.bind((host, port))
-#     return new_socket
-
-
 def is_exit(data: str):
     return data.__contains__('EXIT')
 
