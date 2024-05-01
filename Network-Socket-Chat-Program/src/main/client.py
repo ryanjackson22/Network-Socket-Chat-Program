@@ -24,15 +24,17 @@ class Client:
         self.receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles receiving messages
         self.receiving_socket.connect((host, port))
 
+        # todo sending_thread:
+        #  This should listen for user input and decide how to send that input to the server
+        listen_thread = threading.Thread(target=self.listen_user_input(self.sending_socket), args=())
+        listen_thread.start()
+        print('a')
         # todo These sockets should be passed to their own threads to handle communication between the client and server
         # todo Receiving Thread: This thread should do two things:
         receiving_thread = threading.Thread(target=self.receiving_thread_handler(), args=())
         receiving_thread.start()
 
-        # todo sending_thread:
-        #  This should listen for user input and decide how to send that input to the server
-        listen_thread = threading.Thread(target=self.listen_user_input(self.sending_socket), args=())
-        listen_thread.start()
+
 
     def receiving_thread_handler(self):
         self.send_start_message()
@@ -47,7 +49,15 @@ class Client:
             print(f'USERNAME (PUBLIC/PRIVATE): {message}')
 
     def listen_user_input(self, sending_socket):
-        pass
+        while True:
+            message_to_server = input("Enter message to: ")
+            if message_to_server.__contains__('EXIT'):
+                sending_socket.sendall('EXIT'.encode('utf-8'))
+                break
+            if message_to_server.__contains__('ALL'):
+                sending_socket.sendall(f'ALL {message_to_server}'.encode('utf-8'))
+            if message_to_server.__contains__('PRIVATE'):
+                sending_socket.sendall(f'PRIVATE USERNAME {message_to_server}'.encode('utf-8'))
 
 
 if __name__ == '__main__':
