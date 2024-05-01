@@ -13,7 +13,7 @@ def is_username_invalid(username: str) -> bool:
 
 class Client:
     """docstring for Client"""
-    def __init__(self, host: str, port: int) -> None:
+    def __init__(self) -> None:
         self.username = set_username()
 
         writing_socket = self.create_tcp_socket(('localhost', 5000))
@@ -65,4 +65,4 @@ def set_username() -> str:
 
 
 if __name__ == '__main__':
-    client = Client("localhost", 10000)
+    client = Client()
