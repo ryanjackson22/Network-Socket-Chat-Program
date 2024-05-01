@@ -63,7 +63,7 @@ def is_broadcast(data):
 
 
 def is_private(data):
-    pass
+    return data.__contains__('PRIVATE')
 
 
 if __name__ == '__main__':
