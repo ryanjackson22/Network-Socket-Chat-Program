@@ -33,16 +33,18 @@ class Client:
         receiving_thread = threading.Thread(target=None, args=())
         receiving_thread.start()
 
-        #  2. It should then sit in a loop waiting for messages from the server.
-        #  When it receives one, it should print it to the console.
-        #  This message should include:
-        #  + the screen name of the sender when printed,
-        #  + indication as to whether the message was private or not.
     def send_start_message(self):
         self.sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
 
     def wait_for_server_message(self):
-        pass
+        while True:
+            message = self.receiving_socket.recv(4096).decode('utf-8')
+            print(f'USERNAME (PUBLIC/PRIVATE): {message}')
+        #  todo 2. It should then sit in a loop waiting for messages from the server.
+        #   When it receives one, it should print it to the console.
+        #   This message should include:
+        #   + the screen name of the sender when printed,
+        #   + indication as to whether the message was private or not.
 
     def listen_user_input(self, sending_socket):
         pass
