@@ -22,14 +22,11 @@ class Server:
         writing_thread.start()
 
     def accept_connections(self, reading_socket):
-        # TODO This should sit in a loop accepting connections from client sending threads.
         reading_socket.listen(20)
         while True:
             client_socket, address = reading_socket.accept()
             client_connection = threading.Thread(target=self.communication_handler(client_socket), args=())
             client_connection.start()
-        # TODO When a client connection is accepted,
-        #  this thread should create a new thread that will handle communication with that particular client
 
     def communication_handler(self, client_socket: socket):
         while True:
