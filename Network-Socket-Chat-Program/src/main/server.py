@@ -36,13 +36,15 @@ class Server:
             if is_exit(data):
                 pass
             if is_broadcast(data):
-                pass
+                for active_connection in active_connections:
+                    active_connection.sendall(f'USERNAME (PUBLIC/PRIVATE): {data}'.encode('utf-8'))
             if is_private(data):
                 pass
 
     def wait_for_start_message(self):
         while True:
             message = self.reading_socket.recv(4096).decode('ascii')
+            print(message)
             if not message:
                 continue
             active_connections.append(self.reading_socket)
