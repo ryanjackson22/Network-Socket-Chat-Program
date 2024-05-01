@@ -8,9 +8,12 @@ active_connections = []
 
 class Server:
     """docstring for Server"""
-    def __init__(self, host: str, port: int):
-        reading_socket = create_socket(host, port)
-        writing_socket = create_socket(host, port + 1)
+    def __init__(self):
+        reading_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        reading_socket.bind(('localhost', 5000))
+
+        writing_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        writing_socket.bind(('localhost', 10000))
 
         reading_thread = threading.Thread(target=self.accept_connections, args=(reading_socket,))
         writing_thread = threading.Thread(target=self.wait_for_start_message, args=(writing_socket,))
@@ -47,9 +50,11 @@ class Server:
 
     def wait_for_start_message(self, writing_socket: socket):
         print("Waiting for start message...")
+        writing_socket.listen(20)
+        connection_socket, address = writing_socket.accept()
         while True:
             # try:
-            message = writing_socket.recv(4096).decode('utf-8')
+            message = connection_socket.recv(4096).decode('utf-8')
             print(message)
             if not message:
                 continue
@@ -58,10 +63,10 @@ class Server:
             active_connections.append(writing_socket)
 
 
-def create_socket(host: str, port: int) -> socket:
-    new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    new_socket.bind((host, port))
-    return new_socket
+# def create_socket(host: str, port: int) -> socket:
+#     new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     new_socket.bind((host, port))
+#     return new_socket
 
 
 def is_exit(data:str):
@@ -84,4 +89,4 @@ def print_active_connections():
 
 
 if __name__ == '__main__':
-    server = Server("localhost", 10000)
+    server = Server()
