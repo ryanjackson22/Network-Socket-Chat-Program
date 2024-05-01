@@ -29,17 +29,17 @@ class Client:
         self.send_start_message(receiving_socket)
         self.wait_for_server_message(receiving_socket)
 
-    def send_start_message(self, sending_socket: socket):
+    def send_start_message(self, sending_socket: socket) -> None:
         sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
         print(f'sent START message to {sending_socket}')
 
-    def wait_for_server_message(self, receiving_socket: socket):
+    def wait_for_server_message(self, receiving_socket: socket) -> None:
         print("Waiting for server message...")
         while True:
             message = receiving_socket.recv(4096).decode('utf-8')
             print(f'USERNAME (PUBLIC/PRIVATE): {message}')
 
-    def listen_user_input(self, sending_socket: socket):
+    def listen_user_input(self, sending_socket: socket) -> None:
         while True:
             message_to_server = input("Enter message to: ")
             if message_to_server.__contains__('EXIT'):
