@@ -40,7 +40,6 @@ class Client:
 
     def wait_for_server_message(self, receiving_socket: socket):
         print("Waiting for server message...")
-        print(receiving_socket)
         while True:
             message = receiving_socket.recv(4096).decode('utf-8')
             print(f'USERNAME (PUBLIC/PRIVATE): {message}')
