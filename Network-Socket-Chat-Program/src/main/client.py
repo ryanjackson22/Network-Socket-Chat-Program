@@ -19,38 +19,33 @@ class Client:
         while is_username_invalid(self.username):
             self.username = input("Enter a Server Username: ")
 
-        self.sending_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
-        self.sending_socket.connect((host, port))
-        self.receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles receiving messages
-        self.receiving_socket.connect((host, port))
+        sending_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
+        sending_socket.connect((host, port))
+        receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles receiving messages
+        receiving_socket.connect((host, port))
 
-        # todo sending_thread:
-        #  This should listen for user input and decide how to send that input to the server
-        listen_thread = threading.Thread(target=self.listen_user_input(self.sending_socket), args=())
-
-        print('a')
-        # todo These sockets should be passed to their own threads to handle communication between the client and server
-        # todo Receiving Thread: This thread should do two things:
-        receiving_thread = threading.Thread(target=self.receiving_thread_handler(), args=())
+        listen_thread = threading.Thread(target=self.listen_user_input, args=(sending_socket,))
+        receiving_thread = threading.Thread(target=self.receiving_thread_handler, args=(receiving_socket,))
 
         listen_thread.start()
         receiving_thread.start()
 
+    def receiving_thread_handler(self, receiving_socket: socket) -> None:
+        self.send_start_message(receiving_socket)
+        self.wait_for_server_message(receiving_socket)
 
+    def send_start_message(self, sending_socket: socket):
+        sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
+        print(f'sent START message to {sending_socket}')
 
-    def receiving_thread_handler(self):
-        self.send_start_message()
-        self.wait_for_server_message()
-
-    def send_start_message(self):
-        self.sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
-
-    def wait_for_server_message(self):
+    def wait_for_server_message(self, receiving_socket: socket):
+        print("Waiting for server message...")
+        print(receiving_socket)
         while True:
-            message = self.receiving_socket.recv(4096).decode('utf-8')
+            message = receiving_socket.recv(4096).decode('utf-8')
             print(f'USERNAME (PUBLIC/PRIVATE): {message}')
 
-    def listen_user_input(self, sending_socket):
+    def listen_user_input(self, sending_socket: socket):
         while True:
             message_to_server = input("Enter message to: ")
             if message_to_server.__contains__('EXIT'):
@@ -60,6 +55,7 @@ class Client:
                 sending_socket.sendall(f'ALL {message_to_server}'.encode('utf-8'))
             if message_to_server.__contains__('PRIVATE'):
                 sending_socket.sendall(f'PRIVATE USERNAME {message_to_server}'.encode('utf-8'))
+            print("Message sent to: ", sending_socket)
 
 
 if __name__ == '__main__':
