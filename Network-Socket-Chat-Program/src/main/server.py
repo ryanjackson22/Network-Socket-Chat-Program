@@ -57,8 +57,9 @@ def create_socket(host: str, port: int) -> socket:
 def is_exit(data:str):
     return data.__contains__('EXIT')
 
+
 def is_broadcast(data):
-    pass
+    return data.__contains__('ALL')
 
 
 def is_private(data):
