@@ -17,8 +17,7 @@ class Client:
         # Todo The client should first start by letting the user pick a screen name for their client,
         self.username = set_username()
 
-        writing_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
-        writing_socket.connect(('localhost', 5000))
+        writing_socket = self.create_tcp_socket(('localhost', 5000))
         reading_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles receiving messages
         reading_socket.connect(('localhost', 10000))
 
@@ -28,7 +27,10 @@ class Client:
         listen_thread.start()
         receiving_thread.start()
 
-
+    def create_tcp_socket(self, socket_address: tuple) -> socket.socket:
+        new_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # handles sending messages
+        new_socket.connect(socket_address)
+        return new_socket
 
     def receiving_thread_handler(self, receiving_socket: socket) -> None:
         self.send_start_message(receiving_socket)
@@ -62,6 +64,7 @@ def set_username() -> str:
     while is_username_invalid(username):
         username = input("Enter a Server Username: ")
     return username
+
 
 if __name__ == '__main__':
     client = Client("localhost", 10000)
