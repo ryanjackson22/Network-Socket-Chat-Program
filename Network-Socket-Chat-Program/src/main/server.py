@@ -2,6 +2,7 @@
 
 import socket
 import threading
+from src.main.connection import Connection
 
 active_connections = []
 
@@ -39,7 +40,8 @@ class Server:
                 if is_broadcast(client_message):
                     print_active_connections()
                     for active_connection in active_connections:
-                        active_connection.sendall(f'{client_message}'.encode('utf-8'))
+                        # active_connection.sendall(f'{client_message}'.encode('utf-8'))
+                        active_connection.connection_socket.sendall(client_message.encode('utf-8'))
                         print(f'Sent Message to {active_connection}')
                 if is_private(client_message):
                     pass
@@ -51,10 +53,12 @@ class Server:
         writing_socket.listen(20)
         connection_socket, address = writing_socket.accept()
         while True:
-            message = connection_socket.recv(4096).decode('utf-8')
-            if not message:
+            client_message = connection_socket.recv(4096).decode('utf-8')
+            username = client_message.split()[0]
+            if not client_message:
                 continue
-            active_connections.append(connection_socket)
+
+            active_connections.append(Connection(username, connection_socket))
 
 
 def is_exit(data: str):
