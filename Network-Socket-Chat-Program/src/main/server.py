@@ -34,6 +34,8 @@ class Server:
     def communication_handler(self, client_socket: socket):
         while True:
             data = client_socket.recv(4096)
+            if not data:
+                continue
             if is_exit(data):
                 pass
             if is_broadcast(data):
