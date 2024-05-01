@@ -30,23 +30,26 @@ class Client:
         self.wait_for_server_message(receiving_socket)
 
     def send_start_message(self, sending_socket: socket) -> None:
-        sending_socket.sendall(f"{self.username} START CONNECTION_DETAILS".encode('utf-8'))
+        sending_socket.sendall(f"{self.username} START".encode('utf-8'))
         print(f'sent START message to {sending_socket}')
 
     def wait_for_server_message(self, receiving_socket: socket) -> None:
         print("Waiting for server message...")
         while True:
-            message = receiving_socket.recv(4096).decode('utf-8')
-            print(f'USERNAME (PUBLIC/PRIVATE): {message}')
+            server_message = receiving_socket.recv(4096).decode('utf-8')
+            print(f'{server_message}')
 
     def listen_user_input(self, sending_socket: socket) -> None:
         while True:
             message_to_server = input("Enter message to: ")
             if message_to_server.__contains__('EXIT'):
-                sending_socket.sendall('EXIT'.encode('utf-8'))
-                break
+                confirmation = input("Are you sure that you want to end session? (Y/n): ")
+                if confirmation.lower() in ['y', 'yes']:
+                    print("Connection Terminated")
+                    sending_socket.sendall(f'{self.username} EXITED'.encode('utf-8'))
+                    break
             if message_to_server.__contains__('ALL'):
-                sending_socket.sendall(f'ALL {message_to_server}'.encode('utf-8'))
+                sending_socket.sendall(f'{self.username} (ALL): {message_to_server}'.encode('utf-8'))
             if message_to_server.__contains__('PRIVATE'):
                 sending_socket.sendall(f'PRIVATE USERNAME {message_to_server}'.encode('utf-8'))
             print("Message sent to: ", sending_socket)
