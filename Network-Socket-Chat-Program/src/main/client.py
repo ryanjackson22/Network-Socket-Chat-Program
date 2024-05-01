@@ -20,7 +20,9 @@ class Client:
             self.username = input("Enter a Server Username: ")
 
         self.sending_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # handles sending messages
+        self.sending_socket.connect((host, port))
         self.receiving_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # handles receiving messages
+        self.receiving_socket.connect((host, port))
 
         # todo These sockets should be passed to their own threads to handle communication between the client and server
 
