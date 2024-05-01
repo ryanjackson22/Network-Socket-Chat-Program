@@ -49,7 +49,7 @@ class Server:
         print("Waiting for start message...")
         while True:
             try:
-                message = writing_socket.recv(4096).decode('ascii')
+                message = writing_socket.recv(4096).decode('utf-8')
                 print(message)
                 if not message:
                     continue
