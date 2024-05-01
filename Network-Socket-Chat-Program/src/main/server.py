@@ -54,7 +54,6 @@ class Server:
         connection_socket, address = writing_socket.accept()
         while True:
             message = connection_socket.recv(4096).decode('utf-8')
-            print(message)
             if not message:
                 continue
             active_connections.append(connection_socket)
