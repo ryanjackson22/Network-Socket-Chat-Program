@@ -38,11 +38,11 @@ class Server:
         #  choose the appropriate action.
 
     def wait_for_start_message(self):
-        pass
-        # Todo sit in a loop waiting for START messages from client receiving threads.
-
-        # Todo When it receives such a message,
-        #  it should add this socket to the above global variable
+        while True:
+            message = self.reading_socket.recv(4096).decode('ascii')
+            if not message:
+                continue
+            active_connections.append(self.reading_socket)
 
 
 def create_socket(host: str, port: int) -> socket:
