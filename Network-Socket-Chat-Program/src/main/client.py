@@ -13,7 +13,7 @@ def is_username_invalid(username: str) -> bool:
 
 class Client:
     """docstring for Client"""
-    def __init__(self):
+    def __init__(self, host: str, port: int) -> None:
         # Todo The client should first start by letting the user pick a screen name for their client,
         self.username = ""
         while is_username_invalid(self.username):
@@ -60,4 +60,4 @@ class Client:
 
 
 if __name__ == '__main__':
-    client = Client()
+    client = Client("localhost", 10000)
