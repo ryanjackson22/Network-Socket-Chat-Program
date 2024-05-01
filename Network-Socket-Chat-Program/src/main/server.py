@@ -54,9 +54,9 @@ def create_socket(host: str, port: int) -> socket:
     return new_socket
 
 
-def is_exit(data):
-    pass
-
+def is_exit(data:str):
+    result = data.__contains__('EXIT')
+    return result
 
 def is_broadcast(data):
     pass
