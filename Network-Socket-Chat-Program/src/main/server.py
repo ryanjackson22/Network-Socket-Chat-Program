@@ -45,7 +45,6 @@ class Server:
             if is_broadcast(client_message):
                 for active_connection in active_connections:
                     active_connection.connection_socket.sendall(f'{sender_username} -> all: {client_message.split(" ", 3)[3]}'.encode('utf-8'))
-                    print(f'Sent Message to: {active_connection.username}')
 
             if is_private(client_message):
                 receiver_username = client_message.split()[2]
@@ -53,7 +52,6 @@ class Server:
                     if active_connection.username == receiver_username:
                         active_connection.connection_socket.sendall(f'{sender_username} -> {receiver_username}: '
                                                                     f'{client_message.split(" ", 3)[3]}'.encode('utf-8'))
-                        print(f'Sent Private Message to: {active_connection.username}')
 
     def wait_for_start_message(self, writing_socket: socket):
         writing_socket.listen(20)
