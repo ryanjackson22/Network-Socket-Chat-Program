@@ -31,7 +31,6 @@ class Client:
 
     def send_start_message(self, sending_socket: socket) -> None:
         sending_socket.sendall(f"{self.username} START".encode('utf-8'))
-        print(f'sent START message to {sending_socket}')
 
     def wait_for_server_message(self, receiving_socket: socket) -> None:
         print("Waiting for server message...")
