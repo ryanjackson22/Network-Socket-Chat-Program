@@ -27,7 +27,6 @@ class Server:
             client_connection.start()
 
     def communication_handler(self, client_socket: socket):
-        print(f'Handling Communication for {client_socket}')
         while True:
             client_message = client_socket.recv(4096).decode('utf-8')
             if not client_message:
@@ -45,7 +44,6 @@ class Server:
             if is_broadcast(client_message):
                 for active_connection in active_connections:
                     active_connection.connection_socket.sendall(f'{sender_username} -> all: {client_message.split(" ", 3)[3]}'.encode('utf-8'))
-                    print(f'Sent Message to: {active_connection.username}')
 
             if is_private(client_message):
                 receiver_username = client_message.split()[2]
@@ -53,10 +51,8 @@ class Server:
                     if active_connection.username == receiver_username:
                         active_connection.connection_socket.sendall(f'{sender_username} -> {receiver_username}: '
                                                                     f'{client_message.split(" ", 3)[3]}'.encode('utf-8'))
-                        print(f'Sent Private Message to: {active_connection.username}')
 
     def wait_for_start_message(self, writing_socket: socket):
-        print("Waiting for start message...")
         writing_socket.listen(20)
         while True:
             connection_socket, address = writing_socket.accept()

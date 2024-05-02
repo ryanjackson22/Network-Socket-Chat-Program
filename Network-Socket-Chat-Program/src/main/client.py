@@ -31,7 +31,6 @@ class Client:
 
     def send_start_message(self, sending_socket: socket) -> None:
         sending_socket.sendall(f"{self.username} START".encode('utf-8'))
-        print(f'sent START message to {sending_socket}')
 
     def wait_for_server_message(self, receiving_socket: socket) -> None:
         print("Waiting for server message...")
@@ -47,14 +46,12 @@ class Client:
             if message_to_server.__contains__('EXIT'):
                 confirmation = input("Are you sure that you want to end session? (Y/n): ")
                 if confirmation.lower() in ['y', 'yes']:
-                    print("Connection Terminated")
                     sending_socket.sendall(f'{self.username} EXITED'.encode('utf-8'))
                     break
             if message_to_server.__contains__('ALL'):
                 sending_socket.sendall(f'{self.username} (ALL): {message_to_server}'.encode('utf-8'))
             if message_to_server.__contains__('PRIVATE'):
                 sending_socket.sendall(f'{self.username} {message_to_server}'.encode('utf-8'))
-            print("Message sent to: ", sending_socket)
 
 
 def create_tcp_socket(socket_address: tuple) -> socket.socket:
