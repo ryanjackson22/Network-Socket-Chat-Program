@@ -34,7 +34,6 @@ class Client:
         length = len(message).to_bytes(length=4, byteorder='big')
         sending_socket.sendall(length)
         sending_socket.sendall(message)
-        # sending_socket.sendall(f"{self.username} START".encode('utf-8'))
 
     def wait_for_server_message(self, receiving_socket: socket) -> None:
         while True:
