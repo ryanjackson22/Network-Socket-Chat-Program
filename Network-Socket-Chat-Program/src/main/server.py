@@ -33,6 +33,7 @@ class Server:
             if not client_message:
                 break
             sender_username = client_message.split()[0]
+
             if is_exit(client_message):
                 for active_connection in active_connections:
                     active_connection.connection_socket.sendall(f'{sender_username} has disconnected'.encode('utf-8'))
@@ -42,10 +43,10 @@ class Server:
                         active_connections.remove(active_connection)
 
             if is_broadcast(client_message):
-                print_active_connections()
                 for active_connection in active_connections:
                     active_connection.connection_socket.sendall(client_message.encode('utf-8'))
                     print(f'Sent Message to: {active_connection.username}')
+
             if is_private(client_message):
                 receiver_username = client_message.split()[3]
                 for active_connection in active_connections:
