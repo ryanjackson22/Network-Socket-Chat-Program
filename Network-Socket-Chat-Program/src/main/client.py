@@ -47,7 +47,6 @@ class Client:
             if message_to_server.__contains__('EXIT'):
                 confirmation = input("Are you sure that you want to end session? (Y/n): ")
                 if confirmation.lower() in ['y', 'yes']:
-                    print("Connection Terminated")
                     sending_socket.sendall(f'{self.username} EXITED'.encode('utf-8'))
                     break
             if message_to_server.__contains__('ALL'):
