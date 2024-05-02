@@ -48,7 +48,7 @@ class Server:
             if is_private(client_message):
                 receiver_username = client_message.split()[2]
                 for active_connection in active_connections:
-                    if active_connection.username == receiver_username:
+                    if active_connection.username == receiver_username or active_connection.username == sender_username:
                         active_connection.connection_socket.sendall(f'{sender_username} -> {receiver_username}: '
                                                                     f'{client_message.split(" ", 3)[3]}'.encode('utf-8'))
 

@@ -42,7 +42,7 @@ class Client:
 
     def listen_user_input(self, sending_socket: socket) -> None:
         while True:
-            message_to_server = input("Enter message to: ")
+            message_to_server = input()
             if message_to_server.__contains__('EXIT'):
                 confirmation = input("Are you sure that you want to end session? (Y/n): ")
                 if confirmation.lower() in ['y', 'yes']:
