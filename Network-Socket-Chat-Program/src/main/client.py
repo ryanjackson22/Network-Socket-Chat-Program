@@ -37,7 +37,6 @@ class Client:
         # sending_socket.sendall(f"{self.username} START".encode('utf-8'))
 
     def wait_for_server_message(self, receiving_socket: socket) -> None:
-        print("Waiting for server message...")
         while True:
             server_message = receiving_socket.recv(4096).decode('utf-8')
             if not server_message:
