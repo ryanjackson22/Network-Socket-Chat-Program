@@ -7,6 +7,7 @@ ___
 1. Download both server.py and client.py Python files.
 2. Run the ``server.py`` file
 3. Run the ``client.py`` file
+4. ``dummy_client.py`` can be used for testing with another client if needed  
 
 ___
 ## Sending Messages
