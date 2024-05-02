@@ -23,7 +23,6 @@ class Server:
         reading_socket.listen(20)
         while True:
             client_socket, address = reading_socket.accept()
-            # print(f'Connected to {client_socket}')
             client_connection = threading.Thread(target=self.communication_handler, args=(client_socket,))
             client_connection.start()
 
@@ -31,24 +30,23 @@ class Server:
         print(f'Handling Communication for {client_socket}')
         while True:
             client_message = client_socket.recv(4096).decode('utf-8')
-            sender_username = client_message.split()[0]
             if not client_message:
-                continue
+                break
+            sender_username = client_message.split()[0]
+
             if is_exit(client_message):
-                # client_socket.sendall(f'EXIT'.encode('utf-8'))
                 for active_connection in active_connections:
                     active_connection.connection_socket.sendall(f'{sender_username} has disconnected'.encode('utf-8'))
 
-                # for active_connection in active_connections:
-                #     if active_connection.username == sender_username:
-                #         active_connections.remove(active_connection)
-            #     send disconnection message to all conections
-            #     remove connection from active_connections() via username
+                for active_connection in active_connections:
+                    if active_connection.username == sender_username:
+                        active_connections.remove(active_connection)
+
             if is_broadcast(client_message):
-                print_active_connections()
                 for active_connection in active_connections:
                     active_connection.connection_socket.sendall(client_message.encode('utf-8'))
                     print(f'Sent Message to: {active_connection.username}')
+
             if is_private(client_message):
                 receiver_username = client_message.split()[3]
                 for active_connection in active_connections:
