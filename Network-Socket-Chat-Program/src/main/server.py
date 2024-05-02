@@ -56,7 +56,9 @@ class Server:
         writing_socket.listen(20)
         while True:
             connection_socket, address = writing_socket.accept()
-            client_message = connection_socket.recv(4096).decode('utf-8')
+            bytes_length = connection_socket.recv(4)
+            length = int.from_bytes(bytes_length, byteorder='big')
+            client_message = connection_socket.recv(length).decode('utf-8')
             username = client_message.split()[0]
             if not client_message:
                 continue
