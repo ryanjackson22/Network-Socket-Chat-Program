@@ -27,7 +27,6 @@ class Server:
             client_connection.start()
 
     def communication_handler(self, client_socket: socket):
-        print(f'Handling Communication for {client_socket}')
         while True:
             client_message = client_socket.recv(4096).decode('utf-8')
             if not client_message:
