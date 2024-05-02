@@ -14,14 +14,18 @@ ___
 There are 3 types of messages you can send:
 * **Broadcast Message**
   Broadcast messages are sent to whoever is actively connected to the server.
-> ALL  *message contents*
-  
+> ALL  *message contents*  
+### E.G.  
+![ALL Command](img/broadcast_message.png)  
 * **Private Message**
   Private messages can be sent to an individual who is actively connected to the server.
 > PRIVATE **receiver's username**  *message contents*
-  
+### E.G.  
+![PRIVATE Command](img/private_message.png)   
 * **Exit Message**
   Exit messages are used to disconnect from the server after communicating.
   When exiting the program, you will be prompted with a confirmation to leave and your connection will be disconnected.
 > EXIT
+### E.G.  
+![EXIT Command](img/exit_message.png) 
 ___
