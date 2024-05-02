@@ -23,7 +23,6 @@ class Server:
         reading_socket.listen(20)
         while True:
             client_socket, address = reading_socket.accept()
-            # print(f'Connected to {client_socket}')
             client_connection = threading.Thread(target=self.communication_handler, args=(client_socket,))
             client_connection.start()
 
