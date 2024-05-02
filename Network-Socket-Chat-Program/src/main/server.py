@@ -56,7 +56,6 @@ class Server:
                         print(f'Sent Private Message to: {active_connection.username}')
 
     def wait_for_start_message(self, writing_socket: socket):
-        print("Waiting for start message...")
         writing_socket.listen(20)
         while True:
             connection_socket, address = writing_socket.accept()
