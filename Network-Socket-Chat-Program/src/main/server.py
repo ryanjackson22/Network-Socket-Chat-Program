@@ -32,12 +32,9 @@ class Server:
         while True:
             client_message = client_socket.recv(4096).decode('utf-8')
             print(f'Received message: {client_message}')
-            try:
-                sender_username = client_message.split()[0]
-            except IndexError:
-                break
             if not client_message:
-                continue
+                break
+            sender_username = client_message.split()[0]
             if is_exit(client_message):
                 # client_socket.sendall(f'EXIT'.encode('utf-8'))
                 for active_connection in active_connections:
