@@ -30,7 +30,6 @@ class Server:
         print(f'Handling Communication for {client_socket}')
         while True:
             client_message = client_socket.recv(4096).decode('utf-8')
-            print(f'Received message: {client_message}')
             if not client_message:
                 break
             sender_username = client_message.split()[0]
