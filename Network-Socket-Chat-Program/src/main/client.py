@@ -52,7 +52,6 @@ class Client:
                 sending_socket.sendall(f'{self.username} (ALL): {message_to_server}'.encode('utf-8'))
             if message_to_server.__contains__('PRIVATE'):
                 sending_socket.sendall(f'{self.username} {message_to_server}'.encode('utf-8'))
-            print("Message sent to: ", sending_socket)
 
 
 def create_tcp_socket(socket_address: tuple) -> socket.socket:
