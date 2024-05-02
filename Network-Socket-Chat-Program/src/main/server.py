@@ -36,7 +36,7 @@ class Server:
 
             if is_exit(client_message):
                 for active_connection in active_connections:
-                    active_connection.connection_socket.sendall(f'{sender_username} has disconnected'.encode('utf-8'))
+                    active_connection.connection_socket.sendall(f'{sender_username} has disconnected.'.encode('utf-8'))
 
                 for active_connection in active_connections:
                     if active_connection.username == sender_username:
@@ -66,6 +66,8 @@ class Server:
                 continue
 
             active_connections.append(Connection(username, connection_socket))
+            for active_connection in active_connections:
+                active_connection.connection_socket.sendall(f'{username} has joined.'.encode('utf-8'))
 
 
 def is_exit(data: str):
