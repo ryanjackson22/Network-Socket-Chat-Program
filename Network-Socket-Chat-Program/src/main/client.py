@@ -37,6 +37,8 @@ class Client:
         print("Waiting for server message...")
         while True:
             server_message = receiving_socket.recv(4096).decode('utf-8')
+            if not server_message:
+                return
             print(f'{server_message}')
 
     def listen_user_input(self, sending_socket: socket) -> None:

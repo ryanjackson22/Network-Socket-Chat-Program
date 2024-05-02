@@ -31,7 +31,11 @@ class Server:
         print(f'Handling Communication for {client_socket}')
         while True:
             client_message = client_socket.recv(4096).decode('utf-8')
-            sender_username = client_message.split()[0]
+            print(f'Received message: {client_message}')
+            try:
+                sender_username = client_message.split()[0]
+            except IndexError:
+                break
             if not client_message:
                 continue
             if is_exit(client_message):
@@ -39,9 +43,9 @@ class Server:
                 for active_connection in active_connections:
                     active_connection.connection_socket.sendall(f'{sender_username} has disconnected'.encode('utf-8'))
 
-                # for active_connection in active_connections:
-                #     if active_connection.username == sender_username:
-                #         active_connections.remove(active_connection)
+                for active_connection in active_connections:
+                    if active_connection.username == sender_username:
+                        active_connections.remove(active_connection)
             #     send disconnection message to all conections
             #     remove connection from active_connections() via username
             if is_broadcast(client_message):
