@@ -48,11 +48,11 @@ class Server:
                     print(f'Sent Message to: {active_connection.username}')
 
             if is_private(client_message):
-                receiver_username = client_message.split()[3]
+                receiver_username = client_message.split()[2]
                 for active_connection in active_connections:
                     if active_connection.username == receiver_username:
-                        active_connection.connection_socket.sendall(f'{sender_username} (private): '
-                                                                    f'{client_message.split(" ", 4)[4]}'.encode('utf-8'))
+                        active_connection.connection_socket.sendall(f'{sender_username} -> {receiver_username}: '
+                                                                    f'{client_message.split(" ", 3)[3]}'.encode('utf-8'))
                         print(f'Sent Private Message to: {active_connection.username}')
 
     def wait_for_start_message(self, writing_socket: socket):
