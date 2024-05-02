@@ -35,7 +35,15 @@ class Server:
             if not client_message:
                 continue
             if is_exit(client_message):
-                client_socket.sendall(f'EXIT'.encode('utf-8'))
+                # client_socket.sendall(f'EXIT'.encode('utf-8'))
+                for active_connection in active_connections:
+                    active_connection.connection_socket.sendall(f'{sender_username} has disconnected'.encode('utf-8'))
+
+                # for active_connection in active_connections:
+                #     if active_connection.username == sender_username:
+                #         active_connections.remove(active_connection)
+            #     send disconnection message to all conections
+            #     remove connection from active_connections() via username
             if is_broadcast(client_message):
                 print_active_connections()
                 for active_connection in active_connections:
